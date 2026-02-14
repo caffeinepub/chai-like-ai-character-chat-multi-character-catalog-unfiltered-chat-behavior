@@ -1,0 +1,187 @@
+{
+  "kind": "build_request",
+  "title": "Character chat app with cinematic “movie mode” playback",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Implement Internet Identity sign-in and gate character creation + saved chats behind authenticated users.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "like chai ai but you can have your own character"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can sign in and sign out with Internet Identity.",
+        "When signed out, the UI allows browsing a landing page but prevents saving characters or chat sessions.",
+        "When signed in, user can create, edit, list, and delete their own characters and chat sessions."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Add a Character Builder that lets a signed-in user create a custom character/persona with: name, short description, personality traits (free text), speaking style (free text), and optional avatar selection from built-in images.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "you can have your own character"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Character Builder form validates required fields (at minimum: name and description/personality).",
+        "Characters persist in the Motoko backend and are scoped per user principal.",
+        "User can select from bundled avatar images; selection is stored with the character.",
+        "A character list page shows all characters for the signed-in user and supports edit/delete."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Create a Chai-like 1:1 chat experience where the user selects a character and exchanges messages in a standard chat UI, with messages persisted per chat session.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "like chai ai"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can start a new chat session with a selected character.",
+        "Chat view shows a scrollable message timeline with clear separation between user and character messages.",
+        "Messages and sessions persist in the backend per user principal and can be re-opened later.",
+        "Chat supports basic operations: send message, show sending/loading state, and handle backend errors gracefully."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Implement an in-app “Character Reply Engine” that generates the character’s next message without using external LLM APIs (e.g., deterministic/rule-based + user-configurable response seeds), and make it depend on the character persona fields and recent chat context.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "they will act like how I and the Ai chat"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend provides an API to request the next character reply given (characterId, sessionId, userMessage).",
+        "Generated replies incorporate the character’s speaking style/persona text (e.g., reflected in tone/format) and reference at least one recent message when available.",
+        "No external AI/LLM service is called; all reply generation runs locally within the app stack.",
+        "User can continue a conversation for multiple turns without breaking state."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Add a “Movie Mode” (cinematic view) for any chat session that visually plays the conversation as an ongoing scene: two on-screen characters (user + custom character), a stage/background, timed line delivery, and simple acting cues (e.g., entrance, idle, emphasis reactions) synchronized to messages.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "what is happening I can see or it will continue like a movie with great act"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Movie Mode can be opened from a chat session and returns back to chat.",
+        "Movie Mode renders the conversation as sequential “beats” with timed progression and controls (Play/Pause, Next/Previous line, Speed).",
+        "Each message produces a visible on-screen delivery (speech bubble or subtitle) attributed to the correct speaker.",
+        "Basic acting cues exist and are consistently applied (e.g., speaker highlights when talking; listener reacts).",
+        "Movie Mode works for both existing saved sessions and newly created sessions."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Add a simple Scene/Stage customization per chat session: choose from a few bundled backgrounds, and set a scene title; store this configuration with the session and use it in Movie Mode.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "continue like a movie"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Session has editable fields: scene title and background selection.",
+        "Scene settings persist in backend and load consistently on refresh.",
+        "Movie Mode uses the chosen background and displays the scene title unobtrusively."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Create a coherent, cinematic visual theme across the app (landing, character builder, chat, movie mode) with consistent typography, spacing, and components; avoid blue/purple as the primary palette.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "like a movie with great act"
+        ]
+      },
+      "acceptanceCriteria": [
+        "App uses a consistent theme (colors, type scale, surface styles) across all screens.",
+        "Movie Mode UI feels “cinematic” (e.g., dark theater-like surfaces, subtle grain, spotlighting) while remaining readable.",
+        "No primary blue/purple theme dominates the UI."
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Expose backend APIs for characters, sessions, and messages (CRUD where applicable) and integrate the frontend via React Query with proper caching and invalidation.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "make me an app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend actor includes stable data types and methods for: create/list/update/delete character; create/list session; append/list messages; update session scene settings.",
+        "Frontend uses React Query for data fetching/mutations and correctly refreshes lists after mutations.",
+        "All data is scoped to the authenticated principal; one user cannot access another user’s data."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not use external LLM/AI service integrations; character replies must be generated within the app stack.",
+    "Backend must remain a single Motoko actor in backend/main.mo (no additional backend services).",
+    "Do not modify files under frontend/src/components/ui or other immutable paths listed in SYSTEM_CONTEXT; compose them instead.",
+    "Use English for all user-facing UI text."
+  ],
+  "nonGoals": [
+    "High-fidelity 3D character animation or motion-captured acting.",
+    "Real-time multi-user chat, chat rooms, or presence.",
+    "Voice synthesis, audio playback, or speech-to-text.",
+    "Third-party authentication providers other than Internet Identity."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Cinematic dark theater-style background with subtle spotlight and film grain (movie-bg-1.dim_1920x1080.png)",
+      "Warm indoor lounge/coffeehouse scene background, softly lit, painterly style (movie-bg-2.dim_1920x1080.png)",
+      "Simple character avatar set: 6 diverse stylized portrait icons on transparent background (avatar-set-1.dim_1024x1024.png)",
+      "Minimal app logo mark, monochrome, film/cinema motif, transparent background (app-logo.dim_512x512.png)"
+    ],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

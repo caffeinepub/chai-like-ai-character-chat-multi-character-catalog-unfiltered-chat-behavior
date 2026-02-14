@@ -1,2 +1,3 @@
-# chai-like-ai-character-chat-multi-character-catalog-unfiltered-chat-behavior
-Exported from Caffeine project: Chai-like AI character chat: multi-character catalog + unfiltered chat behavior
+## Character chat app with cinematic “movie mode” playback
+
+To run app build and run docker image: `docker build -t app . docker run -it --network host app`

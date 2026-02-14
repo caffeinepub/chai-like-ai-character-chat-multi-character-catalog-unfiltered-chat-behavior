@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Build a Chai AI-like chat app where users can create custom characters and watch the conversation play out visually like an ongoing movie/scene.",
+  "existing_features": [
+    {
+      "id": "feature-implement-internet-identity-sign-in-and-gate-character-creation-saved-chats-behind-authenticated-users",
+      "title": "Implement Internet Identity sign-in and gate character creation + saved chats behind authenticated users.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-character-builder-that-lets-a-signed-in-user-create-a-custom-character-persona-with-name-short-description-personality-traits-free-text-speaking-style-free-text-and-optional-avatar-selection-from-built-in-images",
+      "title": "Add a Character Builder that lets a signed-in user create a custom character/persona with: name, short description, personality traits (free text), speaking style (free text), and optional avatar selection from built-in images.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-chai-like-1-1-chat-experience-where-the-user-selects-a-character-and-exchanges-messages-in-a-standard-chat-ui-with-messages-persisted-per-chat-session",
+      "title": "Create a Chai-like 1:1 chat experience where the user selects a character and exchanges messages in a standard chat UI, with messages persisted per chat session.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-an-in-app-character-reply-engine-that-generates-the-character-s-next-message-without-using-external-llm-apis-e-g-deterministic-rule-based-user-configurable-response-seeds-and-make-it-depend-on-the-character-persona-fields-and-recent-chat-context",
+      "title": "Implement an in-app “Character Reply Engine” that generates the character’s next message without using external LLM APIs (e.g., deterministic/rule-based + user-configurable response seeds), and make it depend on the character persona fields and recent chat context.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-movie-mode-cinematic-view-for-any-chat-session-that-visually-plays-the-conversation-as-an-ongoing-scene-two-on-screen-characters-user-custom-character-a-stage-background-timed-line-delivery-and-simple-acting-cues-e-g-entrance-idle-emphasis-reactions-synchronized-to-messages",
+      "title": "Add a “Movie Mode” (cinematic view) for any chat session that visually plays the conversation as an ongoing scene: two on-screen characters (user + custom character), a stage/background, timed line delivery, and simple acting cues (e.g., entrance, idle, emphasis reactions) synchronized to messages.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-simple-scene-stage-customization-per-chat-session-choose-from-a-few-bundled-backgrounds-and-set-a-scene-title-store-this-configuration-with-the-session-and-use-it-in-movie-mode",
+      "title": "Add a simple Scene/Stage customization per chat session: choose from a few bundled backgrounds, and set a scene title; store this configuration with the session and use it in Movie Mode.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-coherent-cinematic-visual-theme-across-the-app-landing-character-builder-chat-movie-mode-with-consistent-typography-spacing-and-components-avoid-blue-purple-as-the-primary-palette",
+      "title": "Create a coherent, cinematic visual theme across the app (landing, character builder, chat, movie mode) with consistent typography, spacing, and components; avoid blue/purple as the primary palette.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-expose-backend-apis-for-characters-sessions-and-messages-crud-where-applicable-and-integrate-the-frontend-via-react-query-with-proper-caching-and-invalidation",
+      "title": "Expose backend APIs for characters, sessions, and messages (CRUD where applicable) and integrate the frontend via React Query with proper caching and invalidation.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Allow users to create and customize their own AI character/persona for chatting (like Chai AI).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Visual/cinematic mode: show the chat playing out as a movie/scene the user can watch (conversation continues with acted-out visuals).",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "architectural_notes": [],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Cinematic dark theater-style background with subtle spotlight and film grain (movie-bg-1.dim_1920x1080.png)\n- Warm indoor lounge/coffeehouse scene background, softly lit, painterly style (movie-bg-2.dim_1920x1080.png)\n- Simple character avatar set: 6 diverse stylized portrait icons on transparent background (avatar-set-1.dim_1024x1024.png)\n- Minimal app logo mark, monochrome, film/cinema motif, transparent background (app-logo.dim_512x512.png)",
+  "generatedImages": [
+    {
+      "filename": "movie-bg-1.dim_1920x1080.png",
+      "description": "Cinematic dark theater-style background with subtle spotlight and film grain",
+      "targetWidth": 1920,
+      "targetHeight": 1080
+    },
+    {
+      "filename": "movie-bg-2.dim_1920x1080.png",
+      "description": "Warm indoor lounge/coffeehouse scene background, softly lit, painterly style",
+      "targetWidth": 1920,
+      "targetHeight": 1080
+    },
+    {
+      "filename": "avatar-set-1.dim_1024x1024.png",
+      "description": "Simple character avatar set: 6 diverse stylized portrait icons on transparent background",
+      "targetWidth": 1024,
+      "targetHeight": 1024
+    },
+    {
+      "filename": "app-logo.dim_512x512.png",
+      "description": "Minimal app logo mark, monochrome, film/cinema motif, transparent background",
+      "targetWidth": 512,
+      "targetHeight": 512
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Character chat app with cinematic “movie mode” playback",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

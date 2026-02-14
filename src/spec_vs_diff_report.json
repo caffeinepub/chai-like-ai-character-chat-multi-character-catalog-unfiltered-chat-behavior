@@ -1,0 +1,135 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-05T11:10:42.620Z",
+  "summary": "Diff adds an Internet Identity–gated single-user 1:1 chat app shell with React Query, a character builder form, chat session pages, and a cinematic “Movie Mode” player. However, several BuildRequest requirements appear only partially implemented (notably multi-character CRUD, session/scene editing, and the in-app reply engine API), and the diff introduces unrequested admin/access-control and profile setup features.",
+  "missing_requirements": [
+    {
+      "id": "REQ-1",
+      "requirement": "When signed in, user can create, edit, list, and delete their own characters and chat sessions.",
+      "reason": "Frontend/back-end evidence shows only a single character per caller (no character IDs, no edit/list/delete UI for multiple characters). Session CRUD beyond listing/starting is not evidenced in the visible diff (and backend is truncated).",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/pages/CharacterPage.tsx",
+        "frontend/src/hooks/useQueries.ts"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "requirement": "Character Builder supports creating multiple characters per user with persistence, avatar selection stored with the character, and a character list page with edit/delete.",
+      "reason": "Backend stores characters as Map<Principal, Character> (keyed by user principal), and frontend page is 'Your Character' (singular) with getCallerCharacter/createCharacter only; no list page for multiple characters, and no delete/update methods evidenced.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/pages/CharacterPage.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/components/characters/CharacterBuilderForm.tsx"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Chat sessions and messages persist per user principal and can be re-opened later with stable session identifiers; chat supports send/loading/error handling.",
+      "reason": "Chat UI and loading/error handling are present, but re-openable sessions with stable session IDs is not clearly implemented: ChatsPage appears to synthesize a sessionId client-side from session fields rather than using a backend-provided ID, and backend session methods are truncated so persistence/reopen semantics cannot be confirmed from the provided diff.",
+      "evidence": [
+        "frontend/src/pages/ChatsPage.tsx",
+        "frontend/src/pages/ChatSessionPage.tsx",
+        "backend/main.mo (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Backend provides an API to request/generate the next character reply given (characterId, sessionId, userMessage) using an in-app reply engine (no external LLM), incorporating persona fields and recent context.",
+      "reason": "No backend method for 'next reply' generation is visible in the provided backend snippet, and the frontend send-message flow (useSendMessage) is not shown in the truncated hooks file; therefore the required reply engine API and persona/context-dependent generation are not evidenced.",
+      "evidence": [
+        "backend/main.mo (truncated)",
+        "frontend/src/hooks/useQueries.ts (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Movie Mode renders sequential beats with timed progression and controls including Play/Pause, Next/Previous line, and Speed, and can return back to chat.",
+      "reason": "Play/Pause and Next/Previous controls are evidenced; speed UI is hinted but the MoviePlayer file is truncated before the speed control is confirmed (only state + handler shown). Return-to-chat navigation is not evidenced in the MovieMode page (not included in the shown diff).",
+      "evidence": [
+        "frontend/src/components/movie/MoviePlayer.tsx (truncated)",
+        "frontend/src/pages/ChatSessionPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "Session has editable scene title and background selection, persisted in backend and used in Movie Mode.",
+      "reason": "Movie Mode consumes session.background and session.sceneTitle, but there is no UI shown to edit these per session (Chats/ChatSession pages do not expose scene settings). Backend methods to update session scene settings are not visible in the truncated backend snippet.",
+      "evidence": [
+        "frontend/src/pages/ChatSessionPage.tsx",
+        "frontend/src/components/movie/MoviePlayer.tsx (truncated)",
+        "backend/main.mo (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "requirement": "Backend actor includes methods for create/list/update/delete character; create/list session; append/list messages; update session scene settings; frontend integrates via React Query with caching/invalidation.",
+      "reason": "React Query integration is evidenced, but backend CRUD completeness is not: character methods shown are create + getCaller + getAll, with no update/delete and no character IDs; session/message APIs are truncated so append/list/update-scene cannot be confirmed from the diff summary.",
+      "evidence": [
+        "backend/main.mo (truncated)",
+        "frontend/src/hooks/useQueries.ts (truncated)"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "User Profile management + mandatory profile setup modal (name) after authentication.",
+      "reason": "BuildRequest does not specify user profiles or a required profile setup step; only II auth gating for characters/chats was requested.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/auth/ProfileSetupModal.tsx",
+        "frontend/src/App.tsx",
+        "frontend/src/hooks/useQueries.ts"
+      ]
+    },
+    {
+      "description": "Custom admin/access-control initialization via secret URL parameter (caffeineAdminToken) and authorization mixins.",
+      "reason": "BuildRequest does not request admin roles, secret-token initialization, or custom access control beyond 'scoped per principal'.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "description": "Branding/footer attribution link to caffeine.ai.",
+      "reason": "Not requested in BuildRequest; adds extra UI/branding content.",
+      "evidence": [
+        "frontend/src/components/layout/AppLayout.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.66,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/auth/LoginButton.tsx",
+    "frontend/src/components/auth/ProfileSetupModal.tsx",
+    "frontend/src/components/characters/AvatarPicker.tsx",
+    "frontend/src/components/characters/CharacterBuilderForm.tsx",
+    "frontend/src/components/chat/MessageComposer.tsx",
+    "frontend/src/components/chat/MessageTimeline.tsx",
+    "frontend/src/components/layout/AppLayout.tsx",
+    "frontend/src/components/movie/MoviePlayer.tsx",
+    "frontend/src/components/movie/Stage.tsx",
+    "frontend/src/components/movie/useMovieBeats.ts",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/CharacterPage.tsx",
+    "frontend/src/pages/ChatSessionPage.tsx",
+    "frontend/src/pages/ChatsPage.tsx",
+    "frontend/src/pages/LandingPage.tsx",
+    "frontend/src/pages/MovieModePage.tsx",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

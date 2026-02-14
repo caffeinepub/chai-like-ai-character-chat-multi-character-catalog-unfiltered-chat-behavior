@@ -1,0 +1,176 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-internet-identity-sign-in-and-gate-character-creation-saved-chats-behind-authenticated-users",
+      "featureTitle": "Implement Internet Identity sign-in and gate character creation + saved chats behind authenticated users.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/auth/LoginButton.tsx",
+        "frontend/src/components/auth/ProfileSetupModal.tsx",
+        "frontend/src/main.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-character-builder-that-lets-a-signed-in-user-create-a-custom-character-persona-with-name-short-description-personality-traits-free-text-speaking-style-free-text-and-optional-avatar-selection-from-built-in-images",
+      "featureTitle": "Add a Character Builder that lets a signed-in user create a custom character/persona with: name, short description, personality traits (free text), speaking style (free text), and optional avatar selection from built-in images.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/characters/AvatarPicker.tsx",
+        "frontend/src/components/characters/CharacterBuilderForm.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-chai-like-1-1-chat-experience-where-the-user-selects-a-character-and-exchanges-messages-in-a-standard-chat-ui-with-messages-persisted-per-chat-session",
+      "featureTitle": "Create a Chai-like 1:1 chat experience where the user selects a character and exchanges messages in a standard chat UI, with messages persisted per chat session.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/chat/MessageComposer.tsx",
+        "frontend/src/components/chat/MessageTimeline.tsx",
+        "frontend/src/pages/ChatSessionPage.tsx",
+        "frontend/src/pages/ChatsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-an-in-app-character-reply-engine-that-generates-the-character-s-next-message-without-using-external-llm-apis-e-g-deterministic-rule-based-user-configurable-response-seeds-and-make-it-depend-on-the-character-persona-fields-and-recent-chat-context",
+      "featureTitle": "Implement an in-app “Character Reply Engine” that generates the character’s next message without using external LLM APIs (e.g., deterministic/rule-based + user-configurable response seeds), and make it depend on the character persona fields and recent chat context.",
+      "files": [
+        "frontend/src/pages/ChatSessionPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-movie-mode-cinematic-view-for-any-chat-session-that-visually-plays-the-conversation-as-an-ongoing-scene-two-on-screen-characters-user-custom-character-a-stage-background-timed-line-delivery-and-simple-acting-cues-e-g-entrance-idle-emphasis-reactions-synchronized-to-messages",
+      "featureTitle": "Add a “Movie Mode” (cinematic view) for any chat session that visually plays the conversation as an ongoing scene: two on-screen characters (user + custom character), a stage/background, timed line delivery, and simple acting cues (e.g., entrance, idle, emphasis reactions) synchronized to messages.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/movie/MoviePlayer.tsx",
+        "frontend/src/components/movie/Stage.tsx",
+        "frontend/src/components/movie/useMovieBeats.ts",
+        "frontend/src/pages/ChatSessionPage.tsx",
+        "frontend/src/pages/MovieModePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-simple-scene-stage-customization-per-chat-session-choose-from-a-few-bundled-backgrounds-and-set-a-scene-title-store-this-configuration-with-the-session-and-use-it-in-movie-mode",
+      "featureTitle": "Add a simple Scene/Stage customization per chat session: choose from a few bundled backgrounds, and set a scene title; store this configuration with the session and use it in Movie Mode.",
+      "files": [
+        "frontend/src/pages/ChatSessionPage.tsx",
+        "frontend/src/pages/MovieModePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-coherent-cinematic-visual-theme-across-the-app-landing-character-builder-chat-movie-mode-with-consistent-typography-spacing-and-components-avoid-blue-purple-as-the-primary-palette",
+      "featureTitle": "Create a coherent, cinematic visual theme across the app (landing, character builder, chat, movie mode) with consistent typography, spacing, and components; avoid blue/purple as the primary palette.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/layout/AppLayout.tsx",
+        "frontend/src/index.css",
+        "frontend/src/pages/LandingPage.tsx",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-expose-backend-apis-for-characters-sessions-and-messages-crud-where-applicable-and-integrate-the-frontend-via-react-query-with-proper-caching-and-invalidation",
+      "featureTitle": "Expose backend APIs for characters, sessions, and messages (CRUD where applicable) and integrate the frontend via React Query with proper caching and invalidation.",
+      "files": [
+        "frontend/src/components/auth/LoginButton.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

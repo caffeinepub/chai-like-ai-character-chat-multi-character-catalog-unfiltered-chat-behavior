@@ -1,0 +1,21 @@
+{
+  "frontend/src/App.tsx": "Main application component with TanStack Router setup, defining all routes with a properly named RootComponent for React Hooks compliance, wrapped with ThemeProvider and layout.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for all backend operations including user profiles, characters, sessions, and messages with proper caching and invalidation.",
+  "frontend/src/components/layout/AppLayout.tsx": "Shared layout component with header navigation, logo, authenticated menu items, login button, and footer with attribution.",
+  "frontend/src/components/auth/LoginButton.tsx": "Reusable authentication button that handles Internet Identity login/logout and clears React Query cache on logout.",
+  "frontend/src/components/auth/ProfileSetupModal.tsx": "Modal dialog that prompts new users to enter their display name on first login, preventing flash by checking actor and profile fetch state, using correct showCloseButton prop.",
+  "frontend/src/pages/LandingPage.tsx": "Landing page with cinematic hero section explaining the app features, showing different content for authenticated vs anonymous users.",
+  "frontend/src/pages/CharacterPage.tsx": "Character management page allowing authenticated users to create or update their AI character with personality details.",
+  "frontend/src/components/characters/CharacterBuilderForm.tsx": "Form component for creating/editing character with fields for name, description, traits, speaking style, and avatar selection.",
+  "frontend/src/components/characters/AvatarPicker.tsx": "Avatar selection component displaying a grid of avatar options from the generated asset set.",
+  "frontend/src/pages/ChatsPage.tsx": "Chat sessions list page showing all user sessions with options to start new chats or open existing ones in chat or movie mode.",
+  "frontend/src/pages/ChatSessionPage.tsx": "Individual chat session page with message timeline, composer, and navigation to movie mode.",
+  "frontend/src/components/chat/MessageTimeline.tsx": "Scrollable message timeline component displaying user and character messages with avatars, timestamps, auto-scroll behavior, and Tailwind v3 compliant classes.",
+  "frontend/src/components/chat/MessageComposer.tsx": "Message input component with textarea and send button, handling message submission and keyboard shortcuts with Tailwind v3 compliant classes.",
+  "frontend/src/pages/MovieModePage.tsx": "Full-screen cinematic movie mode page that plays back chat conversations with visual staging and controls.",
+  "frontend/src/components/movie/MoviePlayer.tsx": "Movie playback controller with play/pause, navigation, speed controls, and beat progression timing.",
+  "frontend/src/components/movie/Stage.tsx": "Cinematic stage component rendering background, characters, scene title, and subtitles with acting cues and transitions.",
+  "frontend/src/components/movie/useMovieBeats.ts": "Custom hook that transforms messages into timed movie beats with acting cues and duration calculations.",
+  "frontend/src/index.css": "Global styles with cinematic dark theater color palette using OKLCH, warm amber accents, and subtle film grain effect.",
+  "frontend/tailwind.config.js": "Tailwind configuration with cinematic theme extensions including custom shadows, typography, and color tokens."
+}

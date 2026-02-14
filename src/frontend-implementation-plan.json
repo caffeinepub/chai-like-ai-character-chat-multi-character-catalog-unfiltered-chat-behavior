@@ -1,0 +1,330 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Character chat app with cinematic Movie Mode (frontend)",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Add Internet Identity sign-in UI, authenticated gating for characters/saved chats, and first-time user profile setup flow.",
+      "acceptanceCriteria": [
+        "User can sign in and sign out with Internet Identity.",
+        "When signed out, the UI allows browsing a landing page but prevents saving characters or chat sessions.",
+        "When signed in, user can create, edit, list, and delete their own characters and chat sessions."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the top-level app shell and routing with an authenticated area (characters, chats, movie mode) and a signed-out landing page; gate write actions behind authentication state from Internet Identity. Use the authorization component guidance for authenticated gating and profile setup flow. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/LoginButton.tsx",
+          "operation": "create",
+          "description": "Create a reusable login/logout button using the existing useInternetIdentity hook; on logout, clear React Query cache to remove user-scoped data per the authorization component guidance. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/ProfileSetupModal.tsx",
+          "operation": "create",
+          "description": "Implement a first-login modal that prompts for a user display name and saves it via getCallerUserProfile/saveCallerUserProfile; ensure it doesn’t flash before actor/profile query is fully resolved per authorization component guidance. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useCurrentUser.ts",
+          "operation": "create",
+          "description": "Create a hook that derives isAuthenticated, principal (if available), user role, and user profile using React Query + useActor; centralize cache keys so logout/identity changes invalidate correctly. Use the authorization component guidance. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/RequireAuth.tsx",
+          "operation": "create",
+          "description": "Create a simple auth guard wrapper that renders children only when authenticated; otherwise show a friendly signed-out state and navigation back to landing. Use the authorization component guidance. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/main.tsx",
+          "operation": "modify",
+          "description": "Wire the new App shell and ensure QueryClientProvider + InternetIdentityProvider remain the top-level providers; confirm logout flows clear cached user data in conjunction with LoginButton behavior. Use the authorization component guidance. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Build a Character Builder form (name, description, traits, speaking style, optional avatar) plus a signed-in character list with edit/delete affordances.",
+      "acceptanceCriteria": [
+        "Character Builder form validates required fields (at minimum: name and description/personality).",
+        "Characters persist in the Motoko backend and are scoped per user principal.",
+        "User can select from bundled avatar images; selection is stored with the character.",
+        "A character list page shows all characters for the signed-in user and supports edit/delete."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/CharactersPage.tsx",
+          "operation": "create",
+          "description": "Create the signed-in Characters page that lists the user’s characters, provides entry points to create/edit, and offers delete actions (wired to backend capabilities where available) with React Query invalidation. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/characters/CharacterBuilderForm.tsx",
+          "operation": "create",
+          "description": "Implement the Character Builder form with client-side validation (required name + description/personality text), and submit via React Query mutation calling backend create/update capabilities; handle errors gracefully. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/characters/AvatarPicker.tsx",
+          "operation": "create",
+          "description": "Implement an avatar picker that uses the bundled generated avatar image set and stores a selected avatar key/string with the character; use frontend assets under frontend/public/assets/generated/avatar-set-1.dim_1024x1024.png. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/public/assets/generated/avatar-set-1.dim_1024x1024.png",
+          "operation": "create",
+          "description": "Add the generated avatar set asset and wire it into AvatarPicker (no backend storage)."
+        },
+        {
+          "path": "frontend/src/hooks/queries/useCharacters.ts",
+          "operation": "create",
+          "description": "Create React Query hooks for listing and mutating characters (create/edit/delete) using the actor from useActor; ensure caching + invalidation refreshes the character list after mutations. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register navigation/routes to the Characters page and ensure it is behind RequireAuth; add a visible entry point in the authenticated navigation. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Implement a Chai-like 1:1 chat UI: pick a character, start/re-open sessions, and persist message timelines with loading/error states.",
+      "acceptanceCriteria": [
+        "User can start a new chat session with a selected character.",
+        "Chat view shows a scrollable message timeline with clear separation between user and character messages.",
+        "Messages and sessions persist in the backend per user principal and can be re-opened later.",
+        "Chat supports basic operations: send message, show sending/loading state, and handle backend errors gracefully."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/ChatsPage.tsx",
+          "operation": "create",
+          "description": "Create a signed-in Chats page that lists sessions, supports starting a new session by selecting a character, and links into a session chat view; use React Query for loading and cache updates. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ChatSessionPage.tsx",
+          "operation": "create",
+          "description": "Create the chat session view with a scrollable timeline, clear sender separation, composer input, sending/loading indicators, and graceful error surfaces; allow reopening existing sessions. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/chat/MessageTimeline.tsx",
+          "operation": "create",
+          "description": "Implement the message timeline UI component with distinct styling for user vs character messages and auto-scroll behavior when new messages arrive. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/chat/MessageComposer.tsx",
+          "operation": "create",
+          "description": "Implement the message input + send controls, disable appropriately during sending, and surface backend errors; wire to send-message flow via React Query mutation(s). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/queries/useSessions.ts",
+          "operation": "create",
+          "description": "Create React Query hooks for listing sessions, starting sessions, and fetching a session’s details; ensure invalidation refreshes session lists after creating a new session. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/queries/useMessages.ts",
+          "operation": "create",
+          "description": "Create React Query hooks for fetching session messages and appending new messages; ensure the chat view refreshes or updates locally after sends. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register navigation/routes for Chats page and ChatSession page; ensure they are behind RequireAuth and accessible from the authenticated navigation. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Wire an in-app Character Reply Engine flow into chat so character responses are generated within the app stack, using persona fields and recent context, with multi-turn continuity.",
+      "acceptanceCriteria": [
+        "Backend provides an API to request the next character reply given (characterId, sessionId, userMessage).",
+        "Generated replies incorporate the character’s speaking style/persona text (e.g., reflected in tone/format) and reference at least one recent message when available.",
+        "No external AI/LLM service is called; all reply generation runs locally within the app stack.",
+        "User can continue a conversation for multiple turns without breaking state."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/api/replyEngine.ts",
+          "operation": "create",
+          "description": "Create a small frontend abstraction for requesting the next character reply via the backend actor capability (no external AI calls), returning a typed result and normalized error handling for UI consumption. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ChatSessionPage.tsx",
+          "operation": "modify",
+          "description": "Extend the send flow so that after the user message is persisted, the UI requests the next character reply from the backend reply capability, shows a “character is responding” state, appends the generated reply to the timeline, and supports repeated turns without breaking session state. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/queries/useReply.ts",
+          "operation": "create",
+          "description": "Add a React Query mutation hook that invokes the backend reply capability and coordinates cache updates for session messages (invalidate/refetch or update cache). Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Add a Movie Mode cinematic playback view for a chat session with timed line delivery, acting cues, and playback controls.",
+      "acceptanceCriteria": [
+        "Movie Mode can be opened from a chat session and returns back to chat.",
+        "Movie Mode renders the conversation as sequential “beats” with timed progression and controls (Play/Pause, Next/Previous line, Speed).",
+        "Each message produces a visible on-screen delivery (speech bubble or subtitle) attributed to the correct speaker.",
+        "Basic acting cues exist and are consistently applied (e.g., speaker highlights when talking; listener reacts).",
+        "Movie Mode works for both existing saved sessions and newly created sessions."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/MovieModePage.tsx",
+          "operation": "create",
+          "description": "Create a dedicated Movie Mode page for a given session that loads session + messages via React Query and renders cinematic playback with stage/background, scene title overlay, and on-screen delivery for each beat; include return-to-chat navigation. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/movie/MoviePlayer.tsx",
+          "operation": "create",
+          "description": "Implement the playback engine UI (Play/Pause, Next/Previous, Speed) and timed progression across beats derived from messages; handle empty/loading/error states. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/movie/Stage.tsx",
+          "operation": "create",
+          "description": "Implement the stage rendering: background image, two character positions (user + character), subtitles/speech bubble, and consistent acting cues (speaker highlight, listener reaction, entrance/idle/emphasis) based on the current beat. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/movie/useMovieBeats.ts",
+          "operation": "create",
+          "description": "Create a hook to transform messages into sequential beats with per-line duration (adjustable by speed) and derived acting cues; keep deterministic behavior for consistent playback. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ChatSessionPage.tsx",
+          "operation": "modify",
+          "description": "Add an “Open Movie Mode” action for the current session, wiring navigation to MovieModePage. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register a route for Movie Mode and ensure it is behind RequireAuth and navigable from a chat session. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/public/assets/generated/movie-bg-1.dim_1920x1080.png",
+          "operation": "create",
+          "description": "Add the generated cinematic theater-style background asset and make it selectable/usable by Movie Mode stage rendering."
+        },
+        {
+          "path": "frontend/public/assets/generated/movie-bg-2.dim_1920x1080.png",
+          "operation": "create",
+          "description": "Add the generated warm lounge background asset and make it selectable/usable by Movie Mode stage rendering."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Add per-session scene/stage customization (scene title + bundled background selection) that persists and is used in Movie Mode.",
+      "acceptanceCriteria": [
+        "Session has editable fields: scene title and background selection.",
+        "Scene settings persist in backend and load consistently on refresh.",
+        "Movie Mode uses the chosen background and displays the scene title unobtrusively."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/sessions/SceneSettingsForm.tsx",
+          "operation": "create",
+          "description": "Create a small form for editing scene title and selecting a bundled background for a session; use generated backgrounds and submit via React Query mutation calling backend session-update capability. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ChatSessionPage.tsx",
+          "operation": "modify",
+          "description": "Add an in-session “Scene Settings” section/modal/panel using SceneSettingsForm; ensure values load from session data and update the UI immediately after save via cache invalidation. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/queries/useSceneSettings.ts",
+          "operation": "create",
+          "description": "Add React Query mutation + cache utilities for updating a session’s scene title/background; ensure session + movie mode views reflect updates after save/refresh. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/MovieModePage.tsx",
+          "operation": "modify",
+          "description": "Use the persisted session background selection and scene title when rendering the Stage; fall back to a default bundled background if none is set. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Apply a coherent cinematic visual theme across landing, character builder, chat, and movie mode; avoid blue/purple as primary palette.",
+      "acceptanceCriteria": [
+        "App uses a consistent theme (colors, type scale, surface styles) across all screens.",
+        "Movie Mode UI feels “cinematic” (e.g., dark theater-like surfaces, subtle grain, spotlighting) while remaining readable.",
+        "No primary blue/purple theme dominates the UI."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Define global theme tokens (CSS variables) and base styles for a cinematic dark palette (neutral/charcoal + warm accent), consistent typography/spacing, and readable surfaces; ensure primary is not blue/purple. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Adjust Tailwind theme extensions (if needed) to support the cinematic palette and consistent surfaces/typography across the app, ensuring no primary blue/purple dominates. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/layout/AppLayout.tsx",
+          "operation": "create",
+          "description": "Create a shared layout component (header/nav/content shell) used across authenticated pages and landing to enforce consistent spacing, typography, and cinematic surface styling. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/public/assets/generated/app-logo.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated monochrome cinema motif logo asset and use it in the app header/landing branding (no backend storage)."
+        },
+        {
+          "path": "frontend/src/pages/LandingPage.tsx",
+          "operation": "create",
+          "description": "Create a signed-out landing page that matches the cinematic theme and explains that signing in is required to create/save characters and chats; include LoginButton and app logo usage. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wrap screens with AppLayout; ensure landing + authenticated areas share consistent styling primitives, and Movie Mode retains a cinematic theater-like presentation while staying readable. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Integrate frontend with backend character/session/message capabilities using React Query with caching and invalidation, scoped to the authenticated principal.",
+      "acceptanceCriteria": [
+        "Backend actor includes stable data types and methods for: create/list/update/delete character; create/list session; append/list messages; update session scene settings.",
+        "Frontend uses React Query for data fetching/mutations and correctly refreshes lists after mutations.",
+        "All data is scoped to the authenticated principal; one user cannot access another user’s data."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/api/actorClient.ts",
+          "operation": "create",
+          "description": "Create a thin, typed client wrapper around useActor that exposes backend calls used by the app (characters, sessions, messages, scene settings) and normalizes error handling for the UI. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/api/queryKeys.ts",
+          "operation": "create",
+          "description": "Centralize React Query keys for user profile, characters, sessions, session detail, and messages to ensure consistent caching/invalidation across the app. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/queries/useCharacters.ts",
+          "operation": "modify",
+          "description": "Ensure the characters hooks use centralized query keys, proper enabled-guards based on actor availability/auth state, and invalidate relevant lists/details after mutations. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/queries/useSessions.ts",
+          "operation": "modify",
+          "description": "Ensure sessions hooks use centralized query keys and invalidate/refetch as needed after start session and scene settings updates; keep queries disabled when actor isn’t ready. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/queries/useMessages.ts",
+          "operation": "modify",
+          "description": "Ensure messages hooks update timelines smoothly after send and support re-opening sessions; add robust error mapping for authorization failures and other backend errors. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/LoginButton.tsx",
+          "operation": "modify",
+          "description": "On logout, clear React Query cache and return the user to the landing flow to prevent cross-principal data leakage, per the authorization component guidance. Verify the component's usage instructions before implementing."
+        }
+      ]
+    }
+  ]
+}
